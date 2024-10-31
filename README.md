@@ -24,7 +24,7 @@
     This project is a modern web-based video streaming platform built using Laravel 11. 
     It aims to deliver a secure, efficient, and user-friendly experience, complete with advanced features for managing user authentication, handling sensitive data securely, and providing a rich user interface.
 </p>
-<img src="URL_TO_YOUR_IMAGE" alt="Application Screenshot" style="max-width: 100%; height: auto;"/>
+<img src="{{ asset('feature/login-page.png') }}" alt="Application Screenshot" style="max-width: 100%; height: auto;"/>
 
 <h2>Key Features</h2>
 <ul>
