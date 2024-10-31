@@ -24,6 +24,7 @@
     This project is a modern web-based video streaming platform built using Laravel 11. 
     It aims to deliver a secure, efficient, and user-friendly experience, complete with advanced features for managing user authentication, handling sensitive data securely, and providing a rich user interface.
 </p>
+<img src="URL_TO_YOUR_IMAGE" alt="Application Screenshot" style="max-width: 100%; height: auto;"/>
 
 <h2>Key Features</h2>
 <ul>
@@ -34,6 +35,7 @@
     <li><strong>Dynamic UI:</strong> The frontend is developed using Bootstrap and Owl Carousel for a responsive and visually appealing user experience.</li>
     <li><strong>Inspect Element Protection:</strong> While complete prevention isn't possible, JavaScript measures are in place to deter element inspection attempts.</li>
 </ul>
+<img src="URL_TO_ANOTHER_IMAGE" alt="Feature Overview" style="max-width: 100%; height: auto;"/>
 
 <h2>Technologies & Packages Used</h2>
 <ul>
@@ -44,3 +46,4 @@
     <li><strong>Frontend:</strong> Developed with Bootstrap and Owl Carousel for a polished and interactive UI.</li>
     <li><strong>JavaScript Libraries:</strong> SweetAlert2 for alert notifications, among others.</li>
 </ul>
+<img src="URL_TO_YET_ANOTHER_IMAGE" alt="Technology Stack" style="max-width: 100%; height: auto;"/>
