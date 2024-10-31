@@ -70,7 +70,7 @@
     </div>
 </section>
 <script>
-    function toggleFavorite(imdbID) {
+function toggleFavorite(imdbID) {
     fetch(`/toggle-favorite/${imdbID}`, {
         method: 'POST',
         headers: {

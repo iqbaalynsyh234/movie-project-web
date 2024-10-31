@@ -157,7 +157,6 @@
                     <h3 class="movie-title">{{ $movie['Title'] }}</h3>
                     <ul class="movie-misc-info">
                         <li class="year"><b>Year:</b> {{ $movie['Year'] }}</li>
-                        <li class="rating"><b>IMDb ID:</b> {{ $movie['imdbID'] }}</li>
                     </ul>
                 </div>
             @endforeach

@@ -65,6 +65,13 @@
                                 </div>
                             </div>
 
+                            <form method="GET" action="{{ url()->current() }}" style="display: inline;">
+                                <select name="lang" onchange="this.form.submit()">
+                                    <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>English</option>
+                                    <option value="id" {{ app()->getLocale() == 'id' ? 'selected' : '' }}>Bahasa Indonesia</option>
+                                </select>
+                            </form>
+
                             <!-- Subscribe Button -->
                             <div class="gen-btn-container">
                                 <a href="{{ route('register') }}" class="gen-button">
