@@ -1,7 +1,6 @@
 @extends('layouts.master')
 @section('title', $movie['Title'])
 @section('content')
-
 <!-- Single Video Start -->
 <section class="gen-section-padding-3 gen-single-video">
     <div class="container">
@@ -10,7 +9,6 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="gen-video-holder">
-                            <!-- Menampilkan Poster Gambar -->
                             <img height="50px" src="{{ $movie['Poster'] !== 'N/A' ? $movie['Poster'] : asset('assets/image_not_found.png') }}" alt="Movie Poster">
                         </div>
                     </div>

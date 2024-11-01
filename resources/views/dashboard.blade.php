@@ -167,65 +167,90 @@
     <div id="load-more" style="text-align: center; padding: 20px;">Loading more movies...</div>
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    let page = 1;
-    let loading = false;
-    const searchQuery = "{{ $searchQuery }}";
-    const loadMore = document.getElementById('load-more');
-
-    window.addEventListener('scroll', () => {
-        if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !loading) {
-            page++;
-            loading = true;
-            loadMoreMovies(page);
-        }
-    });
-
-    function loadMoreMovies(page) {
-        fetch(`/dashboard?s=${encodeURIComponent(searchQuery)}&page=${page}`, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                const resultContainer = $('.owl-carousel');
-                data.forEach(movie => {
-                    const movieElement = `
-                        <div class="item movie-info">
-                            <div class="poster">
-                                <img class="movie-poster" src="${movie.Poster !== 'N/A' ? movie.Poster : '/assets/image_not_found.png'}" alt="Movie Poster">
-                            </div>
-                            <h3 class="movie-title">${movie.Title}</h3>
-                            <ul class="movie-misc-info">
-                                <li class="year"><b>Year:</b> ${movie.Year}</li>
-                                <li class="rating"><b>IMDb ID:</b> ${movie.imdbID}</li>
-                            </ul>
-                        </div>
-                    `;
-                    resultContainer.trigger('add.owl.carousel', [$(movieElement)]).trigger('refresh.owl.carousel');
-                });
-                loading = false;
-            } else {
-                if (loadMore) {
-                    loadMore.textContent = 'No more movies to load.';
-                }
-            }
-        })
-        .catch(error => console.error('Error loading more movies:', error));
+  $(document).ready(function () {
+    // Function to append number to the input
+    function appendToInput(number) {
+      const inputField = $('#phoneNumberInput');
+      inputField.val(inputField.val() + number);
     }
 
-    $('.owl-carousel').owlCarousel({
-        loop: true,
-        margin: 10,
-        nav: true,
-        responsive: {
-            0: { items: 1 },
-            600: { items: 2 },
-            1000: { items: 3 }
-        }
+    // Event listener for the keypad numbers
+    $('.keyboard .number span').click(function () {
+      const number = $(this).data('number');  
+      appendToInput(number); 
     });
-});
+
+    // Function to clear the last digit (optional)
+    $('.delete-key').click(function () {
+      const inputField = $('#phoneNumberInput');
+      inputField.val(inputField.val().slice(0, -1)); 
+    });
+
+    // The rest of your JavaScript code remains the same
+    let token;
+    function getTwilioAccessToken() {
+      $.ajax({
+        url: '/phone/access-token',
+        method: 'GET',
+        success: function (response) {
+          token = response.token;
+          initializeTwilioDevice(token);
+        },
+        error: function (xhr) {
+          console.error('Gagal mendapatkan token Twilio', xhr);
+        }
+      });
+    }
+
+    // Initialize Twilio Device with token
+    function initializeTwilioDevice(token) {
+      device = new Twilio.Device(token, {
+        logLevel: 1,
+        codecPreferences: ['opus', 'pcmu'],
+        maxCallSignalingTimeoutMs: 40000
+      });
+
+      device.on('ready', function () {
+        console.log('Twilio Device siap untuk menerima dan melakukan panggilan.');
+      });
+
+      device.on('error', function (error) {
+        console.error('Error di Twilio Device:', error);
+      });
+
+      device.on('incoming', handleIncomingCall);
+    }
+
+    // Make the outgoing call
+    $('[data-call="call"]').click(function () {
+      const phoneNumber = $('#phoneNumberInput').val().trim();
+      if (phoneNumber) {
+        $.ajax({
+          url: '/calls/make',  
+          method: 'POST',
+          data: {
+            phoneNumber: phoneNumber,  
+            _token: $('meta[name="csrf-token"]').attr('content')
+          },
+          success: function (response) {
+            console.log('Panggilan berhasil dimulai:', response.message);
+          },
+          error: function (xhr) {
+            console.error('Error memulai panggilan:', xhr.responseJSON.message);
+          }
+        });
+      } else {
+        alert('Harap masukkan nomor telepon yang valid.');
+      }
+    });
+
+    // Incoming call handler
+    function handleIncomingCall(call) {
+      console.log('Panggilan masuk dari:', call.parameters.From);
+      call.accept();
+    }
+
+    getTwilioAccessToken();
+  });
 </script>
 @endsection
